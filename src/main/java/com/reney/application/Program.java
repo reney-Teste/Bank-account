@@ -1,7 +1,7 @@
 package com.reney.application;
 
 import com.reney.model.entities.Account;
-import com.reney.model.exceptions.DomainException;
+import com.reney.model.exceptions.BusinessException;
 
 import java.util.InputMismatchException;
 import java.util.Locale;
@@ -20,11 +20,11 @@ public class Program {
             System.out.print("Holder: ");
             String holder = sc.nextLine();
             System.out.print("Initial balance: ");
-            double initBalance = sc.nextDouble();
+            double Balance = sc.nextDouble();
             System.out.print("Withdraw limit: ");
             double withdrawLimit = sc.nextDouble();
 
-            Account account = new Account(number, holder, initBalance, withdrawLimit);
+            Account account = new Account(number, holder, Balance, withdrawLimit);
 
             System.out.print("\nEnter the amount for withdraw: ");
             Double amount = sc.nextDouble();
@@ -32,14 +32,15 @@ public class Program {
 
             System.out.printf("%nNew balance: %.2f", account.getBalance());
         }
-        catch (DomainException e){
+        catch (BusinessException e){
             System.out.println("\nWithdraw error: " + e.getMessage());
         }
         catch (InputMismatchException e){
             System.out.println("\nInvalid input");
         }
-
-
+        catch (RuntimeException e){
+            System.out.println("\nUnexpected error");
+        }
         sc.close();
     }
 }

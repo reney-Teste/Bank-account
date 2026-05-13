@@ -1,6 +1,6 @@
 package com.reney.model.entities;
 
-import com.reney.model.exceptions.DomainException;
+import com.reney.model.exceptions.BusinessException;
 
 public class Account {
     private Integer number;
@@ -38,10 +38,6 @@ public class Account {
         return balance;
     }
 
-    public void setBalance(Double balance) {
-        this.balance = balance;
-    }
-
     public Double getWithdrawLimit() {
         return withdrawLimit;
     }
@@ -54,13 +50,17 @@ public class Account {
         this.balance += amount;
     }
 
-    public void withdraw(Double amount) throws DomainException {
+    public void withdraw(Double amount){
+        validateWithdraw(amount);
+        this.balance -= amount;
+    }
+
+    private void validateWithdraw(Double amount){
         if (amount > withdrawLimit){
-            throw new DomainException("The amount exceeds withdraw limit");
+            throw new BusinessException("The amount exceeds withdraw limit");
         }
         if (amount > balance){
-            throw new DomainException("Not enough balance");
+            throw new BusinessException("Not enough balance");
         }
-        this.balance -= amount;
     }
 }
